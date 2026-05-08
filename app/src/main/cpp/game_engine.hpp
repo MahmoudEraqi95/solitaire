@@ -19,6 +19,10 @@ namespace solitaire {
             initializeDeck();
         }
 
+        std::vector<Card> &getCards() {
+            return deck;
+        }
+
         void initializeDeck() {
             deck.clear();
             for (int s = 0; s < 4; s++) {
