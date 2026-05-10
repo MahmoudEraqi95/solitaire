@@ -8,4 +8,6 @@ class NativeBridge {
     external fun getEngineMessage(): String
 
     external fun getDeck(): List<Card>
+
+    external fun shuffleDeck()
 }

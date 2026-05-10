@@ -13,6 +13,13 @@ Java_com_eraqi_solitaire_NativeBridge_getEngineMessage(JNIEnv* env, jobject thiz
     return env->NewStringUTF(message.c_str());
 }
 
+// app/src/main/cpp/native_lib.cpp
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_eraqi_solitaire_NativeBridge_shuffleDeck(JNIEnv* env, jobject thiz) {
+    engine.shuffleAndDeal();
+}
+
 
 extern "C" JNIEXPORT jobject JNICALL
 Java_com_eraqi_solitaire_NativeBridge_getDeck(JNIEnv* env, jobject thiz) {

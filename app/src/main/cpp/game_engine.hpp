@@ -22,6 +22,9 @@ namespace solitaire {
         std::vector<Card> &getCards() {
             return deck;
         }
+        void shuffleAndDeal() {
+            initializeDeck(); // This re-runs the shuffle logic
+        }
 
         void initializeDeck() {
             deck.clear();
