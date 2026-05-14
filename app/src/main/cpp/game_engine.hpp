@@ -12,11 +12,18 @@ namespace solitaire {
         int suit;   // 0-3
         bool isFaceUp;
     };
+    struct GameState {
+        std::vector<Card> stock;
+        std::vector<Card> waste;
+        std::vector<Card> foundations[4]; // 4 suit piles
+        std::vector<Card> tableau[7];    // 7 columns
+    };
 
     class GameEngine {
     public:
         GameEngine() {
             initializeDeck();
+            dealNewGame();
         }
 
         std::vector<Card> &getCards() {
@@ -41,9 +48,39 @@ namespace solitaire {
         int getCardCount() const {
             return static_cast<int>(deck.size());
         }
+        void dealNewGame() {
+            // 1. Create and Shuffle full deck
+            std::vector<Card> deck;
+            for (int s = 0; s < 4; s++) {
+                for (int r = 1; r <= 13; r++) {
+                    deck.push_back({r, s, false});
+                }
+            }
+            std::shuffle(deck.begin(), deck.end(), std::mt19937(std::random_device()()));
+
+            // 2. Clear piles
+            state = GameState();
+
+            // 3. Deal Tableau (7 columns)
+            for (int i = 0; i < 7; i++) {
+                for (int j = 0; j <= i; j++) {
+                    Card c = deck.back();
+                    deck.pop_back();
+                    if (j == i) c.isFaceUp = true; // Only top card is face up
+                    state.tableau[i].push_back(c);
+                }
+            }
+
+            // 4. Remaining cards go to Stock
+            state.stock = deck;
+        }
+
+        const GameState& getState() const { return state; }
+
 
     private:
         std::vector<Card> deck;
+        GameState state;
     };
 
 } // namespace solitaire
