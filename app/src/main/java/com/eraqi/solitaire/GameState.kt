@@ -1,6 +1,5 @@
 package com.eraqi.solitaire
 
-// app/src/main/java/com/eraqi/solitaire/GameState.kt
 
 data class GameState(
     val stock: List<Card>,
