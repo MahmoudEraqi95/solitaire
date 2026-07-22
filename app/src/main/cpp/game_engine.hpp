@@ -30,7 +30,8 @@ namespace solitaire {
             return deck;
         }
         void shuffleAndDeal() {
-            initializeDeck(); // This re-runs the shuffle logic
+            initializeDeck();
+            dealNewGame(); // Re-deal after shuffling
         }
 
         void initializeDeck() {
@@ -48,31 +49,26 @@ namespace solitaire {
         int getCardCount() const {
             return static_cast<int>(deck.size());
         }
-        void dealNewGame() {
-            // 1. Create and Shuffle full deck
-            std::vector<Card> deck;
-            for (int s = 0; s < 4; s++) {
-                for (int r = 1; r <= 13; r++) {
-                    deck.push_back({r, s, false});
-                }
-            }
-            std::shuffle(deck.begin(), deck.end(), std::mt19937(std::random_device()()));
 
-            // 2. Clear piles
+        void dealNewGame() {
+            // 1. Clear previous state
             state = GameState();
+
+            // 2. Create a working copy of the shuffled member deck
+            std::vector<Card> workingDeck = deck;
 
             // 3. Deal Tableau (7 columns)
             for (int i = 0; i < 7; i++) {
                 for (int j = 0; j <= i; j++) {
-                    Card c = deck.back();
-                    deck.pop_back();
+                    Card c = workingDeck.back();
+                    workingDeck.pop_back();
                     if (j == i) c.isFaceUp = true; // Only top card is face up
                     state.tableau[i].push_back(c);
                 }
             }
 
             // 4. Remaining cards go to Stock
-            state.stock = deck;
+            state.stock = workingDeck;
         }
 
         const GameState& getState() const { return state; }
