@@ -6,7 +6,7 @@ This document outlines the current state of the Solitaire project and the remain
 *   **Architecture:** Hybrid architecture using **Kotlin/Jetpack Compose** for the UI and **C++** for the game engine, connected via **JNI (Native Bridge)**.
 *   **Data Models:** `Card` and `GameState` are synchronized between Kotlin and C++. The JNI bridge handles complex data types like nested lists for the tableau and foundations.
 *   **Engine:** The C++ `GameEngine` can initialize a deck, shuffle it, and deal the initial 7-column tableau according to standard Solitaire rules.
-*   **UI:** Basic rendering of the tableau columns is implemented. A "New Game" button triggers the native engine and updates the Compose state.
+*   **UI:** UI split into modular components (`CardView`, `TableauView`, `FoundationsView`, `StockWasteView`). Tableau now supports vertical card stacking.
 
 ---
 
